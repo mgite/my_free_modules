@@ -11,7 +11,7 @@
     'support': 'matemana2608@gmail.com',
     'license': 'GPL-3',
     'category': 'Tools',
-    'version': '17.0.1.0.0',
+    'version': '18.0.1.0.0',
     'images': ['static/description/wallpaper.png'],
     'external_dependencies': {
         'python': ['debugpy'],
