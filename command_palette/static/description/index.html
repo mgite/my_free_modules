@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Global Command Palette</title>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        crossorigin="anonymous"
+    >
+    <style>
+        :root {
+            --bg: #f4efe5;
+            --paper: #fffdf8;
+            --ink: #1f2937;
+            --muted: #6b7280;
+            --brand: #0f766e;
+            --brand-deep: #115e59;
+            --accent: #c2410c;
+            --accent-soft: rgba(194, 65, 12, 0.10);
+            --brand-soft: rgba(15, 118, 110, 0.12);
+            --line: rgba(31, 41, 55, 0.10);
+            --shadow: 0 18px 45px rgba(15, 23, 42, 0.10);
+            --radius-xl: 24px;
+            --radius-lg: 18px;
+        }
+
+        body {
+            margin: 0;
+            background:
+                radial-gradient(circle at top left, rgba(15, 118, 110, 0.10), transparent 34%),
+                radial-gradient(circle at top right, rgba(194, 65, 12, 0.10), transparent 26%),
+                linear-gradient(180deg, #fbf7ef 0%, var(--bg) 100%);
+            color: var(--ink);
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: -0.02em;
+        }
+
+        .hero {
+            padding: 72px 0 52px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: var(--brand-soft);
+            border: 1px solid rgba(15, 118, 110, 0.18);
+            color: var(--brand-deep);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .hero-card,
+        .soft-card,
+        .shot-card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+        }
+
+        .hero-copy {
+            padding: 40px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            line-height: 1.05;
+            margin: 14px 0 18px;
+        }
+
+        .brand {
+            color: var(--brand);
+        }
+
+        .hero-subtitle {
+            font-size: 1.14rem;
+            color: var(--muted);
+            max-width: 42rem;
+            margin-bottom: 24px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            padding: 9px 14px;
+            border-radius: 999px;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            color: var(--ink);
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .tag.accent {
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-color: rgba(194, 65, 12, 0.18);
+        }
+
+        .hero-visual {
+            padding: 24px;
+            background:
+                linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(194, 65, 12, 0.08)),
+                var(--paper);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shot {
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--line);
+            display: block;
+            background: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .hero-shot {
+            width: 100%;
+            max-width: 520px;
+            max-height: 360px;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
+        .gallery-frame {
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-shot {
+            width: auto;
+            max-width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
+        .placeholder-note {
+            color: var(--muted);
+            font-size: 0.92rem;
+            margin-top: 14px;
+        }
+
+        .section {
+            padding: 26px 0 22px;
+        }
+
+        .section-head {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 2.15rem;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+            max-width: 46rem;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+
+        .feature-card {
+            height: 100%;
+            padding: 28px;
+            border-radius: var(--radius-lg);
+            background: var(--paper);
+            border: 1px solid var(--line);
+            box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            background: var(--brand-soft);
+            color: var(--brand-deep);
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .feature-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            margin-bottom: 0;
+        }
+
+        .value-box {
+            padding: 28px;
+        }
+
+        .value-box ul {
+            margin-bottom: 0;
+            padding-left: 1.2rem;
+        }
+
+        .value-box li {
+            margin-bottom: 0.8rem;
+            color: var(--muted);
+        }
+
+        .value-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        .split-band {
+            padding: 18px 0;
+        }
+
+        .shot-card {
+            padding: 18px;
+            height: 100%;
+        }
+
+        .shot-card h5 {
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+        }
+
+        .shot-card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-top: 12px;
+            margin-bottom: 0;
+        }
+
+        .security-box {
+            padding: 30px;
+            border-radius: var(--radius-xl);
+            background:
+                linear-gradient(135deg, rgba(15, 118, 110, 0.06), rgba(194, 65, 12, 0.06)),
+                var(--paper);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+        }
+
+        .security-box p,
+        .security-box li {
+            color: var(--muted);
+        }
+
+        .security-box ul {
+            margin-bottom: 0;
+            padding-left: 1.2rem;
+        }
+
+        .workflow-step {
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            background: var(--paper);
+            border: 1px solid var(--line);
+            height: 100%;
+        }
+
+        .step-no {
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--brand);
+            color: #fff;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        .workflow-step p {
+            color: var(--muted);
+            margin-bottom: 0;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+            padding: 16px 0 44px;
+        }
+
+        @media (max-width: 991px) {
+            .hero-title {
+                font-size: 2.35rem;
+            }
+
+            .hero-copy,
+            .hero-visual {
+                padding: 26px;
+            }
+
+            .hero-shot {
+                max-width: 100%;
+                max-height: 320px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .hero {
+                padding-top: 44px;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .gallery-frame {
+                min-height: 220px;
+            }
+
+            .gallery-shot {
+                max-height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!--
+Planned image placeholders for App Store publishing:
+- wallpaper.png
+- screenshot_palette_search.png
+- screenshot_record_navigation.png
+- screenshot_menu_action_results.png
+- screenshot_permissions.png
+-->
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-card overflow-hidden">
+            <div class="row g-0 align-items-stretch">
+                <div class="col-lg-7">
+                    <div class="hero-copy">
+                        <div class="eyebrow">Odoo 19 • Productivity • Backend UX</div>
+                        <h1 class="hero-title">
+                            <span class="brand">Global Command Palette</span><br>
+                            for faster Odoo navigation
+                        </h1>
+                        <p class="hero-subtitle">
+                            Bring a modern command bar experience into Odoo. Press
+                            <strong>Ctrl + K</strong>, type what you need, and jump directly to
+                            menus, actions, or records without hunting through the interface.
+                        </p>
+                        <div class="tag-list">
+                            <span class="tag accent">Ctrl + K</span>
+                            <span class="tag">Search menus instantly</span>
+                            <span class="tag">Open actions faster</span>
+                            <span class="tag">Find records with fewer clicks</span>
+                            <span class="tag">Permission-aware results</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head">
+            <h2 class="section-title">Why this module is so useful</h2>
+            <p class="section-subtitle">
+                Odoo is powerful, but daily work often means too much navigation. This module removes
+                friction from the most repetitive part of the day: finding the right place, the right action,
+                or the right record fast.
+            </p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon">K</div>
+                    <h4>Keyboard-first speed</h4>
+                    <p>Open the palette in one shortcut and stay in flow instead of clicking through multiple menus.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon">M</div>
+                    <h4>Menu discovery</h4>
+                    <p>Find apps and menu entries even in large databases where navigation trees become overwhelming.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon">A</div>
+                    <h4>Action access</h4>
+                    <p>Reach important actions directly from search instead of remembering where they are buried.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon">R</div>
+                    <h4>Record retrieval</h4>
+                    <p>Search records quickly from anywhere and open the form view immediately when you find the right match.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="split-band">
+    <div class="container">
+        <div class="row g-4 align-items-stretch">
+            <div class="col-lg-6">
+                <div class="soft-card value-box h-100">
+                    <h3 class="mb-3">Built for real Odoo users</h3>
+                    <ul>
+                        <li>HR teams can jump to employees, contracts, departments, and approvals faster.</li>
+                        <li>Survey managers can move between surveys, questions, answers, and setup screens without losing momentum.</li>
+                        <li>Sales, Accounting, Inventory, and Operations teams reduce click-depth across the entire backend.</li>
+                        <li>Power users work faster, but casual users benefit too because the interface becomes easier to reach.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="soft-card value-box h-100">
+                    <h3 class="mb-3">Why customers buy it</h3>
+                    <ul>
+                        <li>Immediate productivity gain after installation.</li>
+                        <li>No training-heavy workflow to learn.</li>
+                        <li>Feels modern and premium inside standard Odoo.</li>
+                        <li>Useful every single day, not only in edge cases.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head">
+            <h2 class="section-title">What users will see</h2>
+            <p class="section-subtitle">
+                The screenshots below are wired with placeholder filenames so you can drop your own final marketplace visuals in later.
+            </p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="shot-card">
+                    <h5>1. Search experience</h5>
+                    <div class="gallery-frame">
+                        <img src="screenshot_palette_search.png" alt="Command palette search screenshot" class="shot gallery-shot">
+                    </div>
+                    <p>Use <code>screenshot_palette_search.png</code> for the primary search UI screenshot.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="shot-card">
+                    <h5>2. Record navigation</h5>
+                    <div class="gallery-frame">
+                        <img src="screenshot_record_navigation.png" alt="Record navigation screenshot" class="shot gallery-shot">
+                    </div>
+                    <p>Use <code>screenshot_record_navigation.png</code> to show jumping directly into a record form view.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="shot-card">
+                    <h5>3. Menu and action results</h5>
+                    <div class="gallery-frame">
+                        <img src="screenshot_menu_action_results.png" alt="Menu and action results screenshot" class="shot gallery-shot">
+                    </div>
+                    <p>Use <code>screenshot_menu_action_results.png</code> to demonstrate mixed search results.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="shot-card">
+                    <h5>4. Permission-aware behavior</h5>
+                    <div class="gallery-frame">
+                        <img src="screenshot_permissions.png" alt="Permission aware search screenshot" class="shot gallery-shot">
+                    </div>
+                    <p>Use <code>screenshot_permissions.png</code> to show how results stay within the user’s allowed access.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="security-box">
+            <div class="row g-4 align-items-start">
+                <div class="col-lg-6">
+                    <h3 class="mb-3">Beautiful for users, safe for administrators</h3>
+                    <p>
+                        This module improves speed without bypassing Odoo security. Users only see what they already
+                        have access to in the backend. That makes the module practical for day-to-day teams, not only administrators.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <ul>
+                        <li>Visible menus stay aligned with existing Odoo menu visibility.</li>
+                        <li>Record search respects user read access and model permissions.</li>
+                        <li>Actions are surfaced from what users can already reach in the interface.</li>
+                        <li>Works as a productivity layer on top of your current security structure.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head">
+            <h2 class="section-title">How it feels in daily work</h2>
+            <p class="section-subtitle">
+                The value of this module is not theoretical. It saves small amounts of time dozens of times per day,
+                which becomes a major productivity improvement across the whole team.
+            </p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="workflow-step">
+                    <div class="step-no">1</div>
+                    <h5>Open</h5>
+                    <p>Press <strong>Ctrl + K</strong> from the backend at any moment.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="workflow-step">
+                    <div class="step-no">2</div>
+                    <h5>Type</h5>
+                    <p>Search by menu name, action title, or record name just like in a modern command bar.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="workflow-step">
+                    <div class="step-no">3</div>
+                    <h5>Jump</h5>
+                    <p>Open the destination immediately and keep moving without losing focus.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="footer-note">
+    Global Command Palette for Odoo 19 • OPL-1 • Placeholder screenshots ready for final App Store assets
+</div>
+
+</body>
+</html>
