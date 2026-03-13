@@ -15,6 +15,7 @@
     "license": "OPL-1",
     "category": "Productivity",
     "version": "19.0.1.0.0",
+    "images": ["static/description/wallpaper.png"],
     "depends": ["web"],
     "assets": {
         "web.assets_backend": [
