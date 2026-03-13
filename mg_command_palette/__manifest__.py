@@ -18,8 +18,8 @@
     "depends": ["web"],
     "assets": {
         "web.assets_backend": [
-            "command_palette/static/src/js/search_service.js",
-            "command_palette/static/src/js/palette.js",
+            "mg_command_palette/static/src/js/search_service.js",
+            "mg_command_palette/static/src/js/palette.js",
         ],
     },
     "installable": True,
