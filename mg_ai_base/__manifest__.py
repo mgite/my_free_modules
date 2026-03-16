@@ -9,7 +9,7 @@
     """,
     "author": "mgite",
     "support": "matemana2608@gmail.com",
-    "license": "GPL-3",
+    "license": "OPL-1",
     "category": "Tools",
     "version": "19.0.1.0.0",
     "depends": [
