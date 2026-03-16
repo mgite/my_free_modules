@@ -1,0 +1,11 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_mg_ai_routing_user","mg.ai.routing user","model_mg_ai_routing","base.group_user",1,0,0,0
+"access_mg_ai_routing_system","mg.ai.routing system","model_mg_ai_routing","base.group_system",1,1,1,1
+"access_mg_ai_provider_user","mg.ai.provider user","model_mg_ai_provider","base.group_user",1,0,0,0
+"access_mg_ai_provider_system","mg.ai.provider system","model_mg_ai_provider","base.group_system",1,1,1,1
+"access_mg_ai_type_user","mg.ai.type user","model_mg_ai_type","base.group_user",1,0,0,0
+"access_mg_ai_type_system","mg.ai.type system","model_mg_ai_type","base.group_system",1,1,1,1
+"access_mg_ai_model_user","mg.ai.model user","model_mg_ai_model","base.group_user",1,0,0,0
+"access_mg_ai_model_system","mg.ai.model system","model_mg_ai_model","base.group_system",1,1,1,1
+"access_mg_ai_helper_system","mg.ai.helper system","model_mg_ai_helper","base.group_system",1,1,1,1
+"access_mg_ai_helper_field_system","mg.ai.helper.field system","model_mg_ai_helper_field","base.group_system",1,1,1,1

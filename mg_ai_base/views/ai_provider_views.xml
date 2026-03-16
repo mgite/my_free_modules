@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_mg_ai_provider_tree" model="ir.ui.view">
+        <field name="name">mg.ai.provider.tree</field>
+        <field name="model">mg.ai.provider</field>
+        <field name="arch" type="xml">
+            <list string="AI Providers">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="is_active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mg_ai_provider_form" model="ir.ui.view">
+        <field name="name">mg.ai.provider.form</field>
+        <field name="model">mg.ai.provider</field>
+        <field name="arch" type="xml">
+            <form string="AI Provider">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="is_active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

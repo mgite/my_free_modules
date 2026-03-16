@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Base</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Helvetica, Arial, sans-serif;
+            color: #1f2933;
+            background: #f5f7fa;
+        }
+        .wrap {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+        .hero img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .section {
+            padding: 32px 40px;
+        }
+        h1, h2 {
+            margin: 0 0 16px;
+            color: #102a43;
+        }
+        p {
+            margin: 0 0 14px;
+            line-height: 1.6;
+        }
+        ul {
+            margin: 0;
+            padding-left: 20px;
+            line-height: 1.7;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .card {
+            border: 1px solid #d9e2ec;
+            border-radius: 12px;
+            padding: 18px;
+            background: #f8fbff;
+        }
+        .muted {
+            color: #52606d;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="hero">
+            <img src="wallpaper.png" alt="AI Base">
+        </div>
+
+        <div class="section">
+            <h1>AI Base</h1>
+            <p class="muted">
+                Common AI foundation for Odoo integrations.
+            </p>
+            <p>
+                AI Base provides the shared models, routing, helper configuration, and server action flow needed to build reusable AI features in Odoo. Provider-specific modules such as OpenAI can plug into this base without duplicating business logic.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Main Features</h2>
+            <div class="grid">
+                <div class="card">
+                    <strong>AI Providers</strong>
+                    <p>Manage reusable provider records for OpenAI and future integrations.</p>
+                </div>
+                <div class="card">
+                    <strong>AI Types</strong>
+                    <p>Define business-oriented AI capabilities such as text, image, and more.</p>
+                </div>
+                <div class="card">
+                    <strong>AI Models</strong>
+                    <p>Store normalized provider model records in a shared registry.</p>
+                </div>
+                <div class="card">
+                    <strong>AI Routing</strong>
+                    <p>Choose which provider and model should be used for each AI type and company.</p>
+                </div>
+                <div class="card">
+                    <strong>AI Helpers</strong>
+                    <p>Create reusable prompt configurations with source fields and target fields.</p>
+                </div>
+                <div class="card">
+                    <strong>Automation Ready</strong>
+                    <p>Use AI Helper server actions inside Odoo automations and workflows.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Typical Workflow</h2>
+            <ul>
+                <li>Create AI Types and sync provider models from a provider module.</li>
+                <li>Configure AI Routing in Settings for each company.</li>
+                <li>Create AI Helpers with source fields, prompt template, and target field.</li>
+                <li>Use the AI Helper server action in Odoo automations.</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

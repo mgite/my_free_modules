@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_mg_ai_helper_tree" model="ir.ui.view">
+        <field name="name">mg.ai.helper.tree</field>
+        <field name="model">mg.ai.helper</field>
+        <field name="arch" type="xml">
+            <list string="AI Helpers">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="ai_type_id"/>
+                <field name="target_field_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mg_ai_helper_form" model="ir.ui.view">
+        <field name="name">mg.ai.helper.form</field>
+        <field name="model">mg.ai.helper</field>
+        <field name="arch" type="xml">
+            <form string="AI Helper">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="ai_type_id"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="target_field_id"
+                                   domain="[('model_id', '=', model_id), ('store', '=', True), ('ttype', 'in', ('char', 'text', 'html', 'json', 'binary'))]"/>
+                            <field name="notes" placeholder="Optional internal notes..."/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Source Fields">
+                            <field name="field_line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="helper_id" column_invisible="1"/>
+                                    <field name="field_id"
+                                           domain="[('model_id', '=', parent.model_id), ('store', '=', True), ('ttype', 'in', ('binary', 'boolean', 'char', 'date', 'datetime', 'float', 'html', 'integer', 'json', 'many2one', 'monetary', 'selection', 'text'))]"
+                                           options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                    <field name="field_description" readonly="1"/>
+                                    <field name="field_type" readonly="1"/>
+                                    <field name="placeholder"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Prompt">
+                            <field name="prompt_template" widget="text"
+                                   placeholder="Write the instruction template here. Use the configured placeholders from Source Fields."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_mg_ai_helper_search" model="ir.ui.view">
+        <field name="name">mg.ai.helper.search</field>
+        <field name="model">mg.ai.helper</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="ai_type_id"/>
+                <separator/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_mg_ai_helper" model="ir.actions.act_window">
+        <field name="name">AI Helpers</field>
+        <field name="res_model">mg.ai.helper</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_mg_ai_helper_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+    <menuitem id="menu_mg_ai_helper"
+              name="AI Helpers"
+              parent="base.menu_automation"
+              action="action_mg_ai_helper"
+              groups="base.group_system"
+              sequence="0"/>
+
+</odoo>

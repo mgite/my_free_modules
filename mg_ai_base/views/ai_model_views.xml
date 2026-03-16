@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_mg_ai_model_tree" model="ir.ui.view">
+        <field name="name">mg.ai.model.tree</field>
+        <field name="model">mg.ai.model</field>
+        <field name="arch" type="xml">
+            <list string="AI Models">
+                <field name="name"/>
+                <field name="provider_model_id"/>
+                <field name="ai_provider_id"/>
+                <field name="ai_type_id"/>
+                <field name="owned_by"/>
+                <field name="is_active"/>
+                <field name="synced_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mg_ai_model_form" model="ir.ui.view">
+        <field name="name">mg.ai.model.form</field>
+        <field name="model">mg.ai.model</field>
+        <field name="arch" type="xml">
+            <form string="AI Model">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="provider_model_id"/>
+                        <field name="ai_provider_id"/>
+                        <field name="ai_type_id" domain="[('ai_provider_ids', 'in', ai_provider_id)]"/>
+                        <field name="owned_by"/>
+                        <field name="is_active"/>
+                        <field name="synced_at" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="raw_payload" widget="text" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="mg_ai_provider_other" model="mg.ai.provider">
+        <field name="name">Other</field>
+        <field name="code">other</field>
+        <field name="is_active">True</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_server_action_form_mg_ai_base" model="ir.ui.view">
+        <field name="name">ir.actions.server.form.mg.ai.base</field>
+        <field name="model">ir.actions.server</field>
+        <field name="inherit_id" ref="base.view_server_action_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//t[@name='action_content']/notebook" position="before">
+                    <group invisible="state != 'ai_helper'">
+                        <group>
+                            <field name="available_ai_helper_type_ids" invisible="1"/>
+                            <field name="available_ai_helper_provider_ids" invisible="1"/>
+                            <field name="ai_helper_id" invisible="1"/>
+                            <field name="ai_helper_type_id"
+                                   required="state == 'ai_helper'"
+                                   domain="[('id', 'in', available_ai_helper_type_ids)]"
+                                   options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="ai_helper_provider_id"
+                                   required="state == 'ai_helper'"
+                                   domain="[('id', 'in', available_ai_helper_provider_ids)]"
+                                   options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                        </group>
+                        <group>
+                            <field name="ai_helper_target_field_id"
+                                   readonly="1"
+                                   options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                        </group>
+                    </group>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+</odoo>
