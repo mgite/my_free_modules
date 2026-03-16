@@ -12,6 +12,7 @@
     "license": "OPL-1",
     "category": "Tools",
     "version": "19.0.1.0.0",
+    "images": ["static/description/wallpaper.png"],
     "depends": [
         "base_setup",
     ],
