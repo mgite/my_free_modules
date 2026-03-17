@@ -51,7 +51,7 @@ services:
     env_file:
       .env
     ports:
-      - 89:80
+      - 8019:80
     volumes:
       - /opt/nvme_disk/docker_data/code_server/config/workspace/odoo19/customaddons/${CUSTOMADDONS_DIR}/nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
