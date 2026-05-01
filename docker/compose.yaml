@@ -1,0 +1,96 @@
+name: odoo${ODOO_VERSION}_${CUSTOMADDONS_DIR}
+services:
+
+  db:
+    image: postgres:18.3-alpine3.23
+    container_name: ${CUSTOMADDONS_DIR}_db
+    restart: unless-stopped
+    command: >
+      -c max_wal_size=4GB
+      -c max_parallel_workers_per_gather=4
+    #  -c log_statement=all
+    env_file:
+      .env
+    # ports:
+    #   - 5433:5432
+    networks:
+      - odoo_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - /opt/nvme_disk/docker_data/code_server/code_projects_data/odoo${ODOO_VERSION}_${CUSTOMADDONS_DIR}_pg18_data:/var/lib/postgresql
+    labels:
+      - logs.stack=${CUSTOMADDONS_DIR}
+      - logs.app=postgres
+      - logs.env=dev
+      - logs.odoo_version=${ODOO_VERSION}
+
+  odoo:
+    image: odoo-dev:${ODOO_VERSION}
+    container_name: ${CUSTOMADDONS_DIR}_odoo
+    restart: unless-stopped
+    stop_grace_period: 5s
+    depends_on:
+      - db
+    env_file:
+      .env
+    # ports:
+      # - 8069:8069
+    networks:
+      - odoo_network
+    volumes:
+      - /opt/nvme_disk/docker_data/code_server/config/workspace/odoo${ODOO_VERSION}/:/opt/odoo/
+      - /opt/nvme_disk/docker_data/code_server/config/workspace/odoo${ODOO_VERSION}/projects/${CUSTOMADDONS_DIR}/.docker/odoo.conf:/etc/odoo.conf
+      - /opt/nvme_disk/docker_data/code_server/code_projects_data/odoo${ODOO_VERSION}_${CUSTOMADDONS_DIR}_filestore:/root/.local/share/Odoo/
+    labels:
+      - logs.stack=${CUSTOMADDONS_DIR}
+      - logs.app=odoo
+      - logs.env=dev
+      - logs.odoo_version=${ODOO_VERSION}
+
+  nginx:
+    image: nginx:1.30.0-alpine3.23-slim
+    container_name: ${CUSTOMADDONS_DIR}_nginx
+    restart: unless-stopped
+    stop_grace_period: 5s
+    depends_on:
+      - odoo
+    env_file:
+      .env
+    # ports:
+    #   - 8019:80
+    networks:
+      - odoo_network
+      - odoo_nginx_traefik_network
+    volumes:
+      - /opt/nvme_disk/docker_data/code_server/config/workspace/odoo${ODOO_VERSION}/projects/${CUSTOMADDONS_DIR}/.docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    labels:
+      - logs.stack=${CUSTOMADDONS_DIR}
+      - logs.app=nginx
+      - logs.env=dev
+      - logs.odoo_version=${ODOO_VERSION}
+    #   - traefik.enable=true
+    #   - traefik.docker.network=odoo_cloudflare_network
+    #   - traefik.http.routers.${CUSTOMADDONS_DIR}_tunnel.rule=Host(`${CUSTOMADDONS_DIR}.mgite.click`)
+    #   - traefik.http.routers.${CUSTOMADDONS_DIR}_tunnel.service=${CUSTOMADDONS_DIR}_tunnel_srv
+    #   - traefik.http.services.${CUSTOMADDONS_DIR}_tunnel_srv.loadbalancer.server.port=80
+    #   - traefik.http.routers.${CUSTOMADDONS_DIR}_tunnel.entrypoints=tunnel
+      - traefik.enable=true
+      - traefik.docker.network=odoo_nginx_traefik_network
+      - traefik.http.routers.${CUSTOMADDONS_DIR}.rule=Host(`${CUSTOMADDONS_DIR}.archmate.duckdns.org`)
+      - traefik.http.routers.${CUSTOMADDONS_DIR}.entrypoints=websecure
+      - traefik.http.routers.${CUSTOMADDONS_DIR}.service=${CUSTOMADDONS_DIR}_srv
+      - traefik.http.services.${CUSTOMADDONS_DIR}_srv.loadbalancer.server.port=80
+      - traefik.http.routers.${CUSTOMADDONS_DIR}.middlewares=${CUSTOMADDONS_DIR}_whitelist
+      - traefik.http.middlewares.${CUSTOMADDONS_DIR}_whitelist.ipallowlist.sourceRange=173.23.0.100/32,173.23.0.200/32
+
+networks:
+  odoo_network:
+    name: odoo${ODOO_VERSION}_${CUSTOMADDONS_DIR}_network
+  odoo_nginx_traefik_network:
+    external: true
+  # odoo_cloudflare_network:
+  #   external: true
